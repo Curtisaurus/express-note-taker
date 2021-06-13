@@ -2,6 +2,9 @@
 // Series of npm packages that we will use to give our server useful functionality
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+// creates a unique hexatridecimal id
+var uniqid = require('uniqid');
 
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server
@@ -18,6 +21,26 @@ app.use(express.json());
 
 // Sets up the Express app to serve static assets directly
 app.use(express.static('public'));
+
+//API Routes
+app.get('/api/notes', (req, res) => {
+    fs.readFile('/db/db.json', 'utf8', (err, data) => {
+        err ? console.log(err): res.json(data);
+    });
+});
+
+app.post('/api/notes', (req, res) => {
+    let readNotes = []
+    fs.readFileSync('/db/db.json', 'utf8', (err, data) => {
+        err ? console.log(err): readNotes = data;
+    });
+
+    readNotes.push(req.body);
+
+    fs.writeFileSync('/db/db.json',  'utf8', (err) => {
+        if (err) {console.log(err)};
+    });
+});
 
 //HTML Routes
 app.get('/notes', (req, res) => {
