@@ -30,19 +30,19 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
-    let readNotes = []
-    fs.readFileSync('/db/db.json', 'utf8', (err, data) => {
-        err ? console.log(err): readNotes = data;
-    });
+    fs.readFile('/db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            // creates unique id for note object in req.body
+            req.body.id = uniqid();
+            // adds new note object to array of notes from readFile
+            data.push(req.body);
 
-    // creates unique id for note object in req.body
-    req.body.id = uniqid();
-
-    // adds new note object to array of notes from readFile
-    readNotes.push(req.body);
-
-    fs.writeFileSync('/db/db.json', readNotes, 'utf8', (err) => {
-        if (err) {console.log(err)};
+            fs.writeFile('/db/db.json', data, 'utf8', (err) => {
+                if (err) {console.log(err)};
+            });
+        }
     });
 });
 
