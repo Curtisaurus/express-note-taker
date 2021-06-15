@@ -37,9 +37,10 @@ app.post('/api/notes', (req, res) => {
             // creates unique id for note object in req.body
             req.body.id = uniqid();
             // adds new note object to array of notes from readFile
-            data.push(req.body);
+            let notesArr = JSON.parse(data);
+            notesArr.push(req.body);
 
-            fs.writeFile('/db/db.json', data, 'utf8', (err) => {
+            fs.writeFile('/db/db.json', notesArr, 'utf8', (err) => {
                 if (err) {console.log(err)};
             });
         }
