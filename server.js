@@ -49,11 +49,12 @@ app.post('/api/notes', (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
     fs.readFile(path.join(__dirname, '/db/db.json'), 'utf8', (err, data) => {
+        let notesArr;
         if (err) {
             console.log(err);
         } else {
             let deleteId = req.params.id;
-            let notesArr = JSON.parse(data);
+            notesArr = JSON.parse(data);
             notesArr = notesArr.filter((note) => {
                 return note.id !== deleteId;
             });
