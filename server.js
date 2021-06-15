@@ -43,6 +43,8 @@ app.post('/api/notes', (req, res) => {
             fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesArr), 'utf8', (err) => {
                 if (err) {console.log(err)};
             });
+
+            res.end();
         }
     });
 });
@@ -63,6 +65,8 @@ app.delete('/api/notes/:id', (req, res) => {
         fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesArr), 'utf8', (err) => {
             if (err) {console.log(err)};
         });
+
+        res.end();
     });
 });
 
