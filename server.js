@@ -24,13 +24,13 @@ app.use(express.static('public'));
 
 //API Routes
 app.get('/api/notes', (req, res) => {
-    fs.readFile('/db/db.json', 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, '/db/db.json'), 'utf8', (err, data) => {
         err ? console.log(err): res.json(data);
     });
 });
 
 app.post('/api/notes', (req, res) => {
-    fs.readFile('/db/db.json', 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, '/db/db.json'), 'utf8', (err, data) => {
         if (err) {
             console.log(err);
         } else {
