@@ -25,7 +25,7 @@ app.use(express.static('public'));
 //API Routes
 app.get('/api/notes', (req, res) => {
     fs.readFile(path.join(__dirname, '/db/db.json'), 'utf8', (err, data) => {
-        err ? console.log(err): res.json(data);
+        err ? console.log(err): res.send(data);
     });
 });
 
@@ -40,7 +40,7 @@ app.post('/api/notes', (req, res) => {
             let notesArr = JSON.parse(data);
             notesArr.push(req.body);
 
-            fs.writeFile('/db/db.json', notesArr, 'utf8', (err) => {
+            fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesArr), 'utf8', (err) => {
                 if (err) {console.log(err)};
             });
         }
