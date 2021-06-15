@@ -56,7 +56,7 @@ app.delete('/api/notes/:id', (req, res) => {
             let deleteId = req.params.id;
             notesArr = JSON.parse(data);
             notesArr = notesArr.filter((note) => {
-                return note.id !== deleteId;
+                return note.id != deleteId;
             });
         };
 
