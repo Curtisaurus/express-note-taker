@@ -6,6 +6,9 @@ const fs = require('fs');
 // creates a unique hexatridecimal id
 var uniqid = require('uniqid');
 
+// empty array for saved notes
+var notesArr = [];
+
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server
 
@@ -36,8 +39,11 @@ app.post('/api/notes', (req, res) => {
         } else {
             // creates unique id for note object in req.body
             req.body.id = uniqid();
-            // adds new note object to array of notes from readFile
-            let notesArr = JSON.parse(data);
+            // adds new note object to array of notes from readFile only if not an empty file
+            if (data) {
+                notesArr = JSON.parse(data);
+            }
+
             notesArr.push(req.body);
 
             fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesArr), 'utf8', (err) => {
@@ -51,7 +57,6 @@ app.post('/api/notes', (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
     fs.readFile(path.join(__dirname, '/db/db.json'), 'utf8', (err, data) => {
-        let notesArr;
         if (err) {
             console.log(err);
         } else {
